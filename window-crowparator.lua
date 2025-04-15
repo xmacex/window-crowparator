@@ -46,9 +46,9 @@ end
 
 function window_compare(v)
    input_voltage = v
-   if v < window_center - params:get('window_width')/2 then
+   if input_voltage < window_center - params:get('window_width')/2 then
       comp = 'below'
-   elseif v > window_center + params:get('window_width')/2 then
+   elseif input_voltage > window_center + params:get('window_width')/2 then
       comp = 'above'
    else
       comp = 'inside'
