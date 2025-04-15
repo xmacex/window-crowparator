@@ -9,14 +9,16 @@
 --
 -- @xmacex
 
+DEBUG = false
+
 screen.HEIGHT = 64
 screen.WIDTH  = 128
-vscale        = screen.HEIGHT / 20
+local vscale        = screen.HEIGHT / 20
 
-window_center = 0
-input_voltage = 0
-comp          = ""
-pcomp         = ""
+local window_center = 0
+local input_voltage = 0
+local comp          = ""
+local pcomp         = ""
 
 function log(s)
    if DEBUG then print(s) end
