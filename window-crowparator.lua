@@ -17,7 +17,8 @@ local MAXV = 10
 
 screen.HEIGHT = 64 -- naughty or nice?
 screen.WIDTH  = 128
-local vscale  = screen.HEIGHT / (MAXV - MINV)
+YSCALE  = screen.HEIGHT / (MAXV - MINV)
+YZEROV  = screen.HEIGHT / (MAXV/(MAXV-MINV) * YSCALE)
 
 local window_center = 0
 local input_voltage = 0
@@ -103,10 +104,9 @@ function redraw()
 end
 
 function draw_reference()
-   -- screen.move(0, screen.HEIGHT/2)
-   screen.move(0, screen.HEIGHT * (MAXV/(MAXV-MINV)))
+   screen.move(0, screen.HEIGHT - YZEROV)
    screen.level(1)
-   screen.line(screen.WIDTH, screen.HEIGHT * (MAXV/(MAXV-MINV)))
+   screen.line(screen.WIDTH, screen.HEIGHT - YZEROV)
    screen.stroke()
 end
 
@@ -114,14 +114,14 @@ function draw_window()
    screen.level(4)
    screen.text(5, 30, "w")
    screen.rect(screen.WIDTH/2 - 30,
-	       screen.HEIGHT*(MAXV/(MAXV-MINV))-(window_center+params:get('window_width')/2)*vscale,
+	       screen.HEIGHT - YZEROV - (window_center+params:get('window_width')/2)*YSCALE,
 	       60,
-	       math.max(params:get('window_width')*vscale, 1))
+	       math.max(params:get('window_width')*YSCALE, 1))
    screen.fill()
 end
 
 function draw_input()
-   local h = screen.HEIGHT*(MAXV/(MAXV-MINV))-(input_voltage*vscale)
+   local h = screen.HEIGHT-YZEROV-(input_voltage*YSCALE)
    screen.level(10)
    screen.move(0, h)
    screen.text(util.round(input_voltage, 0.1), 0, h)
