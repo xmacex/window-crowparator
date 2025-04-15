@@ -1,11 +1,11 @@
----window crowparator
---
+---window crowparator         ↑
+--                           width
 -- → 1 window center
 -- → 2 input
 --   1 above   →
 --   2 inside   →
---   3 outside →
---   4 below   →
+--   3 outside →   true    false
+--   4 below   →      ↓        ↓
 --
 -- @xmacex
 
@@ -15,11 +15,13 @@ DEBUG = false
 local MINV = -5
 local MAXV = 10
 
+-- screen constants
 screen.HEIGHT = 64 -- naughty or nice?
 screen.WIDTH  = 128
 YSCALE  = screen.HEIGHT / (MAXV - MINV)
 YZEROV  = screen.HEIGHT / (MAXV/(MAXV-MINV) * YSCALE)
 
+-- state
 local window_center = 0
 local input_voltage = 0
 local comp          = ""
@@ -28,6 +30,8 @@ local pcomp         = ""
 function log(s)
    if DEBUG then print(s) end
 end
+
+--- Initialization
 
 function init()
    init_params()
@@ -50,6 +54,8 @@ function init_crow()
    crow.input[2].mode("stream", 1/100)
    crow.input[2].stream = window_compare
 end
+
+--- Running things
 
 function window_compare(v)
    input_voltage = v
@@ -87,6 +93,8 @@ function update_crow()
       crow.output[4].volts = params:get('crow_true')
    end
 end
+
+--- norns UI/screen
 
 function redraw_loop()
    while true do
@@ -131,5 +139,17 @@ function draw_input()
       screen.fill()
    else
       screen.stroke()
+   end
+end
+
+--- norns UI/input
+
+function enc(n, d)
+   if n == 1 then
+      params:delta('window_width', d)
+   elseif n == 2 then
+      params:delta('crow_true', d)
+   elseif n == 3 then
+      params:delta('crow_false', d)
    end
 end
