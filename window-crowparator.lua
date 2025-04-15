@@ -11,9 +11,13 @@
 
 DEBUG = false
 
-screen.HEIGHT = 64
+-- crow voltage range
+local MINV = -5
+local MAXV = 10
+
+screen.HEIGHT = 64 -- naughty or nice?
 screen.WIDTH  = 128
-local vscale        = screen.HEIGHT / 20
+local vscale  = screen.HEIGHT / (MAXV - MINV)
 
 local window_center = 0
 local input_voltage = 0
@@ -99,9 +103,10 @@ function redraw()
 end
 
 function draw_reference()
-   screen.move(0, screen.HEIGHT/2)
+   -- screen.move(0, screen.HEIGHT/2)
+   screen.move(0, screen.HEIGHT * (MAXV/(MAXV-MINV)))
    screen.level(1)
-   screen.line(screen.WIDTH, screen.HEIGHT/2)
+   screen.line(screen.WIDTH, screen.HEIGHT * (MAXV/(MAXV-MINV)))
    screen.stroke()
 end
 
@@ -109,14 +114,14 @@ function draw_window()
    screen.level(4)
    screen.text(5, 30, "w")
    screen.rect(screen.WIDTH/2 - 30,
-	       screen.HEIGHT/2-(window_center+params:get('window_width')/2)*vscale,
+	       screen.HEIGHT*(MAXV/(MAXV-MINV))-(window_center+params:get('window_width')/2)*vscale,
 	       60,
 	       math.max(params:get('window_width')*vscale, 1))
    screen.fill()
 end
 
 function draw_input()
-   local h = screen.HEIGHT/2-(input_voltage*4)
+   local h = screen.HEIGHT*(MAXV/(MAXV-MINV))-(input_voltage*vscale)
    screen.level(10)
    screen.move(0, h)
    screen.text(util.round(input_voltage, 0.1), 0, h)
