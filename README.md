@@ -13,6 +13,8 @@ Set window width in params. Also redefine truth and non-truth there to be what y
       3 outside →
       4 below   →
 
+<kbd>E1</kbd>, <kbd>E2</kbd> and <kbd>E3</kbd> change the three parameters for window width, truth voltage and falsehood voltage.
+
 ## Requirements
 
 - crow
