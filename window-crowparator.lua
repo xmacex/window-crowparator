@@ -121,12 +121,12 @@ function draw_window()
 end
 
 function draw_input()
-   local h = screen.HEIGHT-YZEROV-(input_voltage*YSCALE)
+   local y = screen.HEIGHT-YZEROV-(input_voltage*YSCALE)
    screen.level(10)
-   screen.move(0, h)
-   screen.text(util.round(input_voltage, 0.1), 0, h)
+   screen.move(0, y)
+   screen.text(util.round(input_voltage, 0.1), 0, y)
    screen.stroke()
-   screen.circle(screen.WIDTH/2, h, 5)
+   screen.circle(screen.WIDTH/2, y, 5)
    if comp == 'inside' then
       screen.fill()
    else
