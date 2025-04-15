@@ -2,7 +2,7 @@
 
 Window comparator for crow and norns.
 
-Set window width in params. Also redefine truth and non-truth there to be what you wish. What is 
+Set window width in params. Also redefine truth and non-truth there to be what you wish. What is truth even? Crow will tell.
 
 ## Inputs and outputs
 
@@ -15,8 +15,8 @@ Set window width in params. Also redefine truth and non-truth there to be what y
 
 ## Requirements
 
-- norns
 - crow
+- norns
 
 ## Installation
 
