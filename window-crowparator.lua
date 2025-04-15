@@ -120,7 +120,6 @@ end
 
 function draw_window()
    screen.level(4)
-   screen.text(5, 30, "w")
    screen.rect(screen.WIDTH/2 - 30,
 	       screen.HEIGHT - YZEROV - (window_center+params:get('window_width')/2)*YSCALE,
 	       60,
@@ -130,16 +129,29 @@ end
 
 function draw_input()
    local y = screen.HEIGHT-YZEROV-(input_voltage*YSCALE)
+   -- draw_voltage(y)
    screen.level(10)
-   screen.move(0, y)
-   screen.text(util.round(input_voltage, 0.1), 0, y)
-   screen.stroke()
-   screen.circle(screen.WIDTH/2, y, 5)
    if comp == 'inside' then
+      -- TODO screen:blend_mode could be fun here
+      if params:get('crow_true') < 0 then
+	 screen.blend_mode('xor')
+      end -- blend_mode resets on its own, right?
+      screen.circle(screen.WIDTH/2, y, math.max(math.abs(params:get('crow_true')), 1/3)*3)
       screen.fill()
    else
+      if params:get('crow_false') < 0 then
+	 screen.blend_mode('xor')
+      end
+      screen.circle(screen.WIDTH/2, y, math.max(math.abs(params:get('crow_false')), 1/3)*3)
       screen.stroke()
    end
+end
+
+function draw_voltage(y)
+   screen.move(0, y)
+   screen.level(10)
+   screen.text(util.round(input_voltage, 0.1), 0, y)
+   screen.stroke()
 end
 
 --- norns UI/input
