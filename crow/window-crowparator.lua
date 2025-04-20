@@ -1,3 +1,11 @@
+--- Window comparator
+-- → 1 window center
+-- → 2 input
+--   1 above   →
+--   2 inside  →
+--   3 outside →
+--   4 below   →
+
 MINV = -5
 MAXV = 10
 
