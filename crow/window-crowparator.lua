@@ -13,7 +13,7 @@ public{truev  = 5}:range(MINV, MAXV)
 public{falsev = 0}:range(MINV, MAXV)
 
 public{window_center = 0}:range(MINV, MAXV):type('slider')
-public{window_width  = 1}:range(0.1, MAXV):type('slider')
+public{window_width  = 2.5}:range(0.1, MAXV):type('slider')
 public{input_voltage = 0}:range(MINV, MAXV):type('slider')
 public{comp = 'inside'}:options{'above', 'inside', 'below'}
 

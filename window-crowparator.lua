@@ -21,7 +21,7 @@ screen.WIDTH  = 128
 YSCALE  = screen.HEIGHT / (MAXV - MINV)
 YZEROV  = screen.HEIGHT / (MAXV/(MAXV-MINV) * YSCALE)
 
-ui_clock = nil
+local ui_clock = nil
 
 function log(s)
    if DEBUG then print(s) end
@@ -30,6 +30,9 @@ end
 --- Initialization
 
 function init()
+   istanbul        = screen.load_png(paths.this.lib..'windows-istanbul-128x64.png')
+   istanbul_nocrow = screen.load_png(paths.this.lib..'windows-istanbul-128x64-muted.png')
+
    init_params()
 
    -- wait for crow
@@ -49,7 +52,7 @@ function init()
 end
 
 function init_params()
-   params:add_taper('window_width', "window width", 0.1, 15, 1.0, 1, "v")
+   params:add_taper('window_width', "window width", 0.1, 15, 2.5, 1, "v")
    params:set_action('window_width', function(v) crow.public.window_width = v end)
 
    params:add_taper('crow_true', "true", -5, 10, 5.0, 1, "v")
@@ -77,30 +80,32 @@ end
 function redraw()
    screen.clear()
    if norns.crow.connected() then
+      draw_windows()
       draw_window()
-      draw_reference()
       draw_input()
    else
       if ui_clock then
 	 ui_clock = clock.cancel(ui_clock)
       end
+      draw_windows()
       draw_no_crow_message()
    end
    screen.update()
 end
 
-function draw_reference()
-   screen.move(0, screen.HEIGHT - YZEROV)
-   screen.level(1)
-   screen.line(screen.WIDTH, screen.HEIGHT - YZEROV)
-   screen.stroke()
+function draw_windows()
+   if norns.crow.connected() then
+      screen.display_image(istanbul, 0, 0)
+   else
+      screen.display_image(istanbul_nocrow, 0, 0)
+   end
 end
 
 function draw_window()
-   screen.level(4)
-   screen.rect(screen.WIDTH/2 - 30,
+   screen.level(0)
+   screen.rect(screen.WIDTH/2 - 15,
 	       screen.HEIGHT - YZEROV - (crow.public.window_center+params:get('window_width')/2)*YSCALE,
-	       60,
+	       30,
 	       math.max(params:get('window_width')*YSCALE, 1))
    screen.fill()
 end
@@ -108,7 +113,7 @@ end
 function draw_input()
    local y = screen.HEIGHT-YZEROV-(crow.public.input_voltage*YSCALE)
    -- draw_voltage(y)
-   screen.level(10)
+   screen.level(16)
    if crow.public.comp == 'inside' then
       -- TODO screen:blend_mode could be fun here
       if params:get('crow_true') < 0 then
