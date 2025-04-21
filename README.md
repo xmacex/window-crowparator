@@ -13,6 +13,8 @@ Window comparator for crow, with optional norns UI.
 
 The crow script is in the file `crow/window-crowparator.lua` which can run alone on crow alone.
 
+![](window-crowparator.gif)
+
 If you use the optional norns interface, then <kbd>E1</kbd>, <kbd>E2</kbd> and <kbd>E3</kbd> change the three parameters for window width, truth voltage and falsehood voltage.
 
 Set window width in params. Also redefine truth and non-truth there to be what you wish.
