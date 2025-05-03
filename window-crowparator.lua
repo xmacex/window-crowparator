@@ -53,7 +53,7 @@ end
 
 function init_params()
    params:add_taper('window_width', "window width", 0.1, 15, 2.5, 1, "v")
-   params:set_action('window_width', function(v) crow.public.window_width = v end)
+   params:set_action('window_width', function(v) crow.public.win_wid = v end)
 
    params:add_taper('crow_true', "true", -5, 10, 5.0, 1, "v")
    params:set_action('crow_true', function(v) crow.public.truev = v end)
@@ -104,14 +104,14 @@ end
 function draw_window()
    screen.level(0)
    screen.rect(screen.WIDTH/2 - 15,
-	       screen.HEIGHT - YZEROV - (crow.public.window_center+params:get('window_width')/2)*YSCALE,
+	       screen.HEIGHT - YZEROV - (crow.public.win_cen+params:get('window_width')/2)*YSCALE,
 	       30,
 	       math.max(params:get('window_width')*YSCALE, 1))
    screen.fill()
 end
 
 function draw_input()
-   local y = screen.HEIGHT-YZEROV-(crow.public.input_voltage*YSCALE)
+   local y = screen.HEIGHT-YZEROV-(crow.public.signal*YSCALE)
    -- draw_voltage(y)
    screen.level(16)
    if crow.public.comp == 'inside' then
@@ -133,7 +133,7 @@ end
 function draw_voltage(y)
    screen.move(0, y)
    screen.level(10)
-   screen.text(util.round(crow.public.input_voltage, 0.1), 0, y)
+   screen.text(util.round(crow.public.signal, 0.1), 0, y)
    screen.stroke()
 end
 

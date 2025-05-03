@@ -12,9 +12,9 @@ MAXV = 10
 public{truev  = 5}:range(MINV, MAXV)
 public{falsev = 0}:range(MINV, MAXV)
 
-public{window_center = 0}:range(MINV, MAXV):type('slider')
-public{window_width  = 2.5}:range(0.1, MAXV):type('slider')
-public{input_voltage = 0}:range(MINV, MAXV):type('slider')
+public{win_cen = 0}:range(MINV, MAXV):type('slider')
+public{win_wid = 2.5}:range(0.1, MAXV):type('slider')
+public{signal  = 0}:range(MINV, MAXV):type('slider')
 public{comp = 'inside'}:options{'above', 'inside', 'below'}
 
 -- comp = nil
@@ -23,17 +23,17 @@ pcomp = nil
 function init()
    input[1].mode('stream', 1/100) --, 1/100)
    input[1].stream = function(v)
-      public.window_center = v
+      public.win_cen = v
    end
    input[2].mode('stream', 1/100) --, 1/100)
    input[2].stream = window_compare
 end
 
 function window_compare(v)
-   public.input_voltage = v
-   if public.input_voltage < public.window_center - public.window_width/2 then
+   public.signal = v
+   if public.signal < public.win_cen - public.win_wid/2 then
       public.comp = 'below'
-   elseif public.input_voltage > public.window_center + public.window_width/2 then
+   elseif public.signal > public.win_cen + public.win_wid/2 then
       public.comp = 'above'
    else
       public.comp = 'inside'
@@ -43,7 +43,7 @@ function window_compare(v)
 end
 
 function update_outputs()
-   -- print("comparing "..public.input_voltage.." vs "..public.window_center)
+   -- print("comparing "..public.signal.." vs "..public.win_cen)
    if public.comp == 'above' then
       output[1].volts = public.truev
       output[2].volts = public.falsev
